@@ -1,0 +1,8 @@
+# Real UNSW-NB15 as the cross-domain transfer target.
+cross_domain:
+  enabled: true
+  unsw_data:
+    schema: unsw_nb15
+    source: csv
+    csv_globs: ["realdata/unsw/UNSW_NB15_testing-set.csv"]
+    max_rows: 50000

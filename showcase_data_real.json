@@ -1,0 +1,1517 @@
+{
+  "meta": {
+    "project": "FedZD / RA-BFed",
+    "data_source": "csv",
+    "provenance_note": "Synthetic surrogate with the exact ToN_IoT Network schema -- validates the system end to end. Final paper numbers require the real ToN_IoT/UNSW CSVs run through the identical code.",
+    "n_features": 32,
+    "retained_features": [
+      "src_ip_bytes",
+      "dst_ip_bytes",
+      "dst_bytes",
+      "src_bytes",
+      "conn_state",
+      "proto",
+      "duration",
+      "service",
+      "src_pkts",
+      "dns_query",
+      "dns_RD",
+      "dns_RA",
+      "dns_AA",
+      "dns_rejected",
+      "dst_pkts",
+      "dns_qtype",
+      "dns_qclass",
+      "http_trans_depth",
+      "http_user_agent",
+      "ssl_version",
+      "http_uri",
+      "dns_rcode",
+      "ssl_cipher",
+      "http_method",
+      "weird_addl",
+      "weird_name",
+      "ssl_established",
+      "http_status_code",
+      "missed_bytes",
+      "ssl_resumed",
+      "http_resp_mime_types",
+      "weird_notice"
+    ],
+    "n_zones": 4,
+    "zone_roles": [
+      "UGV Node",
+      "UAV Drone",
+      "Soldier Radio Hub",
+      "Vehicle System"
+    ],
+    "withheld_families": [
+      "mitm",
+      "ddos",
+      "dos"
+    ],
+    "total_rows": 34155,
+    "n_seeds": 5
+  },
+  "fusion_sweep": [
+    {
+      "weights": "classifier_only",
+      "wA": 0.0,
+      "wC": 1.0,
+      "wU": 0.0,
+      "thr": 0.5,
+      "accuracy": 0.8607,
+      "precision": 0.7543,
+      "recall": 0.8185,
+      "f1": 0.7851,
+      "zero_day_recall": 0.4917
+    },
+    {
+      "weights": "zaid_best",
+      "wA": 1.0,
+      "wC": 1.5,
+      "wU": 1.5,
+      "thr": 1.25,
+      "accuracy": 0.8614,
+      "precision": 0.7546,
+      "recall": 0.8212,
+      "f1": 0.7865,
+      "zero_day_recall": 0.5042
+    },
+    {
+      "weights": "equal",
+      "wA": 1.0,
+      "wC": 1.0,
+      "wU": 1.0,
+      "thr": 0.75,
+      "accuracy": 0.8525,
+      "precision": 0.7275,
+      "recall": 0.8403,
+      "f1": 0.7798,
+      "zero_day_recall": 0.6792
+    },
+    {
+      "weights": "ae_heavy",
+      "wA": 1.5,
+      "wC": 1.0,
+      "wU": 1.0,
+      "thr": 0.875,
+      "accuracy": 0.8511,
+      "precision": 0.7326,
+      "recall": 0.8203,
+      "f1": 0.774,
+      "zero_day_recall": 0.5
+    },
+    {
+      "weights": "proposed_A2C1U1",
+      "wA": 2.0,
+      "wC": 1.0,
+      "wU": 1.0,
+      "thr": 1.0,
+      "accuracy": 0.8484,
+      "precision": 0.7268,
+      "recall": 0.8207,
+      "f1": 0.7709,
+      "zero_day_recall": 0.5
+    },
+    {
+      "weights": "proposed_A1_5C1_5U1",
+      "wA": 1.5,
+      "wC": 1.5,
+      "wU": 1.0,
+      "thr": 1.0,
+      "accuracy": 0.8528,
+      "precision": 0.7354,
+      "recall": 0.8221,
+      "f1": 0.7764,
+      "zero_day_recall": 0.5125
+    }
+  ],
+  "per_family": [
+    {
+      "family": "backdoor",
+      "is_zero_day": false,
+      "n": 341,
+      "recall": 0.9971,
+      "precision_vs_benign": 0.3295,
+      "f1_vs_benign": 0.4953
+    },
+    {
+      "family": "ddos",
+      "is_zero_day": true,
+      "n": 80,
+      "recall": 0.9625,
+      "precision_vs_benign": 0.1001,
+      "f1_vs_benign": 0.1814
+    },
+    {
+      "family": "dos",
+      "is_zero_day": true,
+      "n": 80,
+      "recall": 0.95,
+      "precision_vs_benign": 0.099,
+      "f1_vs_benign": 0.1792
+    },
+    {
+      "family": "injection",
+      "is_zero_day": false,
+      "n": 331,
+      "recall": 0.9849,
+      "precision_vs_benign": 0.3202,
+      "f1_vs_benign": 0.4833
+    },
+    {
+      "family": "mitm",
+      "is_zero_day": true,
+      "n": 80,
+      "recall": 0.125,
+      "precision_vs_benign": 0.0142,
+      "f1_vs_benign": 0.0256
+    },
+    {
+      "family": "password",
+      "is_zero_day": false,
+      "n": 312,
+      "recall": 0.9904,
+      "precision_vs_benign": 0.3087,
+      "f1_vs_benign": 0.4707
+    },
+    {
+      "family": "ransomware",
+      "is_zero_day": false,
+      "n": 324,
+      "recall": 0.1975,
+      "precision_vs_benign": 0.0847,
+      "f1_vs_benign": 0.1185
+    },
+    {
+      "family": "scanning",
+      "is_zero_day": false,
+      "n": 330,
+      "recall": 1.0,
+      "precision_vs_benign": 0.3229,
+      "f1_vs_benign": 0.4882
+    },
+    {
+      "family": "xss",
+      "is_zero_day": false,
+      "n": 320,
+      "recall": 0.9844,
+      "precision_vs_benign": 0.3128,
+      "f1_vs_benign": 0.4748
+    }
+  ],
+  "best_fusion": "equal",
+  "sample_predictions": [
+    {
+      "zone": 0,
+      "zone_role": "UGV Node",
+      "family": "ddos",
+      "is_zero_day": true,
+      "true": "ATTACK",
+      "pred": "ATTACK",
+      "correct": true,
+      "anomaly_score": 1.262,
+      "lambda_A": 0.007,
+      "lambda_C": 0.626,
+      "lambda_U": 0.629,
+      "threshold": 0.75
+    },
+    {
+      "zone": 0,
+      "zone_role": "UGV Node",
+      "family": "ddos",
+      "is_zero_day": true,
+      "true": "ATTACK",
+      "pred": "ATTACK",
+      "correct": true,
+      "anomaly_score": 0.927,
+      "lambda_A": 0.109,
+      "lambda_C": 0.818,
+      "lambda_U": 0.0,
+      "threshold": 0.75
+    },
+    {
+      "zone": 0,
+      "zone_role": "UGV Node",
+      "family": "dos",
+      "is_zero_day": true,
+      "true": "ATTACK",
+      "pred": "ATTACK",
+      "correct": true,
+      "anomaly_score": 1.995,
+      "lambda_A": 0.0,
+      "lambda_C": 0.998,
+      "lambda_U": 0.997,
+      "threshold": 0.75
+    },
+    {
+      "zone": 0,
+      "zone_role": "UGV Node",
+      "family": "ransomware",
+      "is_zero_day": false,
+      "true": "ATTACK",
+      "pred": "BENIGN",
+      "correct": false,
+      "anomaly_score": 0.418,
+      "lambda_A": 0.005,
+      "lambda_C": 0.136,
+      "lambda_U": 0.277,
+      "threshold": 0.75
+    },
+    {
+      "zone": 0,
+      "zone_role": "UGV Node",
+      "family": "xss",
+      "is_zero_day": false,
+      "true": "ATTACK",
+      "pred": "ATTACK",
+      "correct": true,
+      "anomaly_score": 1.596,
+      "lambda_A": 0.0,
+      "lambda_C": 0.841,
+      "lambda_U": 0.755,
+      "threshold": 0.75
+    },
+    {
+      "zone": 0,
+      "zone_role": "UGV Node",
+      "family": "normal",
+      "is_zero_day": false,
+      "true": "BENIGN",
+      "pred": "BENIGN",
+      "correct": true,
+      "anomaly_score": 0.027,
+      "lambda_A": 0.027,
+      "lambda_C": 0.0,
+      "lambda_U": 0.0,
+      "threshold": 0.75
+    },
+    {
+      "zone": 0,
+      "zone_role": "UGV Node",
+      "family": "normal",
+      "is_zero_day": false,
+      "true": "BENIGN",
+      "pred": "BENIGN",
+      "correct": true,
+      "anomaly_score": 0.424,
+      "lambda_A": 0.012,
+      "lambda_C": 0.136,
+      "lambda_U": 0.276,
+      "threshold": 0.75
+    },
+    {
+      "zone": 1,
+      "zone_role": "UAV Drone",
+      "family": "ddos",
+      "is_zero_day": true,
+      "true": "ATTACK",
+      "pred": "ATTACK",
+      "correct": true,
+      "anomaly_score": 0.827,
+      "lambda_A": 0.0,
+      "lambda_C": 0.319,
+      "lambda_U": 0.508,
+      "threshold": 0.75
+    },
+    {
+      "zone": 1,
+      "zone_role": "UAV Drone",
+      "family": "ddos",
+      "is_zero_day": true,
+      "true": "ATTACK",
+      "pred": "ATTACK",
+      "correct": true,
+      "anomaly_score": 1.293,
+      "lambda_A": 0.474,
+      "lambda_C": 0.818,
+      "lambda_U": 0.0,
+      "threshold": 0.75
+    },
+    {
+      "zone": 1,
+      "zone_role": "UAV Drone",
+      "family": "dos",
+      "is_zero_day": true,
+      "true": "ATTACK",
+      "pred": "ATTACK",
+      "correct": true,
+      "anomaly_score": 2.0,
+      "lambda_A": 0.004,
+      "lambda_C": 0.998,
+      "lambda_U": 0.997,
+      "threshold": 0.75
+    },
+    {
+      "zone": 1,
+      "zone_role": "UAV Drone",
+      "family": "xss",
+      "is_zero_day": false,
+      "true": "ATTACK",
+      "pred": "ATTACK",
+      "correct": true,
+      "anomaly_score": 1.602,
+      "lambda_A": 0.006,
+      "lambda_C": 0.841,
+      "lambda_U": 0.755,
+      "threshold": 0.75
+    },
+    {
+      "zone": 1,
+      "zone_role": "UAV Drone",
+      "family": "ransomware",
+      "is_zero_day": false,
+      "true": "ATTACK",
+      "pred": "BENIGN",
+      "correct": false,
+      "anomaly_score": 0.426,
+      "lambda_A": 0.005,
+      "lambda_C": 0.139,
+      "lambda_U": 0.281,
+      "threshold": 0.75
+    },
+    {
+      "zone": 1,
+      "zone_role": "UAV Drone",
+      "family": "normal",
+      "is_zero_day": false,
+      "true": "BENIGN",
+      "pred": "BENIGN",
+      "correct": true,
+      "anomaly_score": 0.416,
+      "lambda_A": 0.004,
+      "lambda_C": 0.136,
+      "lambda_U": 0.276,
+      "threshold": 0.75
+    },
+    {
+      "zone": 1,
+      "zone_role": "UAV Drone",
+      "family": "normal",
+      "is_zero_day": false,
+      "true": "BENIGN",
+      "pred": "BENIGN",
+      "correct": true,
+      "anomaly_score": 0.038,
+      "lambda_A": 0.035,
+      "lambda_C": 0.002,
+      "lambda_U": 0.001,
+      "threshold": 0.75
+    },
+    {
+      "zone": 2,
+      "zone_role": "Soldier Radio Hub",
+      "family": "ddos",
+      "is_zero_day": true,
+      "true": "ATTACK",
+      "pred": "ATTACK",
+      "correct": true,
+      "anomaly_score": 0.817,
+      "lambda_A": 0.002,
+      "lambda_C": 0.319,
+      "lambda_U": 0.497,
+      "threshold": 0.75
+    },
+    {
+      "zone": 2,
+      "zone_role": "Soldier Radio Hub",
+      "family": "mitm",
+      "is_zero_day": true,
+      "true": "ATTACK",
+      "pred": "BENIGN",
+      "correct": false,
+      "anomaly_score": 0.327,
+      "lambda_A": 0.02,
+      "lambda_C": 0.071,
+      "lambda_U": 0.236,
+      "threshold": 0.75
+    },
+    {
+      "zone": 2,
+      "zone_role": "Soldier Radio Hub",
+      "family": "ddos",
+      "is_zero_day": true,
+      "true": "ATTACK",
+      "pred": "ATTACK",
+      "correct": true,
+      "anomaly_score": 0.83,
+      "lambda_A": 0.003,
+      "lambda_C": 0.319,
+      "lambda_U": 0.508,
+      "threshold": 0.75
+    },
+    {
+      "zone": 2,
+      "zone_role": "Soldier Radio Hub",
+      "family": "ransomware",
+      "is_zero_day": false,
+      "true": "ATTACK",
+      "pred": "BENIGN",
+      "correct": false,
+      "anomaly_score": 0.413,
+      "lambda_A": 0.0,
+      "lambda_C": 0.137,
+      "lambda_U": 0.277,
+      "threshold": 0.75
+    },
+    {
+      "zone": 2,
+      "zone_role": "Soldier Radio Hub",
+      "family": "injection",
+      "is_zero_day": false,
+      "true": "ATTACK",
+      "pred": "ATTACK",
+      "correct": true,
+      "anomaly_score": 1.422,
+      "lambda_A": 0.0,
+      "lambda_C": 0.713,
+      "lambda_U": 0.709,
+      "threshold": 0.75
+    },
+    {
+      "zone": 2,
+      "zone_role": "Soldier Radio Hub",
+      "family": "normal",
+      "is_zero_day": false,
+      "true": "BENIGN",
+      "pred": "BENIGN",
+      "correct": true,
+      "anomaly_score": 0.002,
+      "lambda_A": 0.0,
+      "lambda_C": 0.001,
+      "lambda_U": 0.001,
+      "threshold": 0.75
+    },
+    {
+      "zone": 2,
+      "zone_role": "Soldier Radio Hub",
+      "family": "normal",
+      "is_zero_day": false,
+      "true": "BENIGN",
+      "pred": "ATTACK",
+      "correct": false,
+      "anomaly_score": 1.421,
+      "lambda_A": 0.014,
+      "lambda_C": 0.698,
+      "lambda_U": 0.71,
+      "threshold": 0.75
+    },
+    {
+      "zone": 3,
+      "zone_role": "Vehicle System",
+      "family": "dos",
+      "is_zero_day": true,
+      "true": "ATTACK",
+      "pred": "ATTACK",
+      "correct": true,
+      "anomaly_score": 2.001,
+      "lambda_A": 0.006,
+      "lambda_C": 0.998,
+      "lambda_U": 0.997,
+      "threshold": 0.75
+    },
+    {
+      "zone": 3,
+      "zone_role": "Vehicle System",
+      "family": "ddos",
+      "is_zero_day": true,
+      "true": "ATTACK",
+      "pred": "ATTACK",
+      "correct": true,
+      "anomaly_score": 1.925,
+      "lambda_A": 0.005,
+      "lambda_C": 0.989,
+      "lambda_U": 0.931,
+      "threshold": 0.75
+    },
+    {
+      "zone": 3,
+      "zone_role": "Vehicle System",
+      "family": "dos",
+      "is_zero_day": true,
+      "true": "ATTACK",
+      "pred": "ATTACK",
+      "correct": true,
+      "anomaly_score": 1.971,
+      "lambda_A": 0.009,
+      "lambda_C": 0.979,
+      "lambda_U": 0.984,
+      "threshold": 0.75
+    },
+    {
+      "zone": 3,
+      "zone_role": "Vehicle System",
+      "family": "xss",
+      "is_zero_day": false,
+      "true": "ATTACK",
+      "pred": "ATTACK",
+      "correct": true,
+      "anomaly_score": 1.846,
+      "lambda_A": 0.006,
+      "lambda_C": 0.971,
+      "lambda_U": 0.87,
+      "threshold": 0.75
+    },
+    {
+      "zone": 3,
+      "zone_role": "Vehicle System",
+      "family": "xss",
+      "is_zero_day": false,
+      "true": "ATTACK",
+      "pred": "ATTACK",
+      "correct": true,
+      "anomaly_score": 1.616,
+      "lambda_A": 0.02,
+      "lambda_C": 0.841,
+      "lambda_U": 0.755,
+      "threshold": 0.75
+    },
+    {
+      "zone": 3,
+      "zone_role": "Vehicle System",
+      "family": "normal",
+      "is_zero_day": false,
+      "true": "BENIGN",
+      "pred": "BENIGN",
+      "correct": true,
+      "anomaly_score": 0.014,
+      "lambda_A": 0.011,
+      "lambda_C": 0.002,
+      "lambda_U": 0.001,
+      "threshold": 0.75
+    },
+    {
+      "zone": 3,
+      "zone_role": "Vehicle System",
+      "family": "normal",
+      "is_zero_day": false,
+      "true": "BENIGN",
+      "pred": "BENIGN",
+      "correct": true,
+      "anomaly_score": 0.034,
+      "lambda_A": 0.033,
+      "lambda_C": 0.0,
+      "lambda_U": 0.0,
+      "threshold": 0.75
+    }
+  ],
+  "channel_trace": [
+    {
+      "round": 0,
+      "zone": 0,
+      "link_up": true,
+      "state": "good",
+      "battery": 100.0,
+      "cpu": 0.22
+    },
+    {
+      "round": 0,
+      "zone": 1,
+      "link_up": true,
+      "state": "good",
+      "battery": 95.5,
+      "cpu": 0.11
+    },
+    {
+      "round": 0,
+      "zone": 2,
+      "link_up": false,
+      "state": "bad",
+      "battery": 93.4,
+      "cpu": 0.79
+    },
+    {
+      "round": 0,
+      "zone": 3,
+      "link_up": true,
+      "state": "good",
+      "battery": 89.3,
+      "cpu": 0.42
+    },
+    {
+      "round": 1,
+      "zone": 0,
+      "link_up": true,
+      "state": "good",
+      "battery": 95.6,
+      "cpu": 0.41
+    },
+    {
+      "round": 1,
+      "zone": 1,
+      "link_up": false,
+      "state": "bad",
+      "battery": 98.3,
+      "cpu": 0.43
+    },
+    {
+      "round": 1,
+      "zone": 2,
+      "link_up": false,
+      "state": "bad",
+      "battery": 89.2,
+      "cpu": 0.33
+    },
+    {
+      "round": 1,
+      "zone": 3,
+      "link_up": false,
+      "state": "bad",
+      "battery": 85.3,
+      "cpu": 0.36
+    },
+    {
+      "round": 2,
+      "zone": 0,
+      "link_up": true,
+      "state": "good",
+      "battery": 91.3,
+      "cpu": 0.4
+    },
+    {
+      "round": 2,
+      "zone": 1,
+      "link_up": true,
+      "state": "good",
+      "battery": 93.8,
+      "cpu": 0.32
+    },
+    {
+      "round": 2,
+      "zone": 2,
+      "link_up": false,
+      "state": "bad",
+      "battery": 81.9,
+      "cpu": 0.31
+    },
+    {
+      "round": 2,
+      "zone": 3,
+      "link_up": false,
+      "state": "bad",
+      "battery": 81.1,
+      "cpu": 0.51
+    },
+    {
+      "round": 3,
+      "zone": 0,
+      "link_up": false,
+      "state": "bad",
+      "battery": 87.1,
+      "cpu": 0.41
+    },
+    {
+      "round": 3,
+      "zone": 1,
+      "link_up": true,
+      "state": "good",
+      "battery": 89.0,
+      "cpu": 0.34
+    },
+    {
+      "round": 3,
+      "zone": 2,
+      "link_up": true,
+      "state": "good",
+      "battery": 77.2,
+      "cpu": 0.31
+    },
+    {
+      "round": 3,
+      "zone": 3,
+      "link_up": true,
+      "state": "bad",
+      "battery": 76.5,
+      "cpu": 0.58
+    },
+    {
+      "round": 4,
+      "zone": 0,
+      "link_up": true,
+      "state": "good",
+      "battery": 90.8,
+      "cpu": 0.32
+    },
+    {
+      "round": 4,
+      "zone": 1,
+      "link_up": true,
+      "state": "good",
+      "battery": 84.4,
+      "cpu": 0.26
+    },
+    {
+      "round": 4,
+      "zone": 2,
+      "link_up": true,
+      "state": "good",
+      "battery": 73.0,
+      "cpu": 0.83
+    },
+    {
+      "round": 4,
+      "zone": 3,
+      "link_up": false,
+      "state": "bad",
+      "battery": 79.4,
+      "cpu": 0.26
+    },
+    {
+      "round": 5,
+      "zone": 0,
+      "link_up": true,
+      "state": "good",
+      "battery": 86.5,
+      "cpu": 0.45
+    },
+    {
+      "round": 5,
+      "zone": 1,
+      "link_up": true,
+      "state": "good",
+      "battery": 80.2,
+      "cpu": 0.39
+    },
+    {
+      "round": 5,
+      "zone": 2,
+      "link_up": true,
+      "state": "good",
+      "battery": 67.5,
+      "cpu": 0.3
+    },
+    {
+      "round": 5,
+      "zone": 3,
+      "link_up": true,
+      "state": "good",
+      "battery": 74.8,
+      "cpu": 0.34
+    },
+    {
+      "round": 6,
+      "zone": 0,
+      "link_up": true,
+      "state": "good",
+      "battery": 80.6,
+      "cpu": 0.31
+    },
+    {
+      "round": 6,
+      "zone": 1,
+      "link_up": true,
+      "state": "good",
+      "battery": 75.4,
+      "cpu": 0.19
+    },
+    {
+      "round": 6,
+      "zone": 2,
+      "link_up": true,
+      "state": "good",
+      "battery": 62.9,
+      "cpu": 0.82
+    },
+    {
+      "round": 6,
+      "zone": 3,
+      "link_up": true,
+      "state": "good",
+      "battery": 68.9,
+      "cpu": 0.26
+    },
+    {
+      "round": 7,
+      "zone": 0,
+      "link_up": true,
+      "state": "good",
+      "battery": 84.4,
+      "cpu": 0.24
+    },
+    {
+      "round": 7,
+      "zone": 1,
+      "link_up": true,
+      "state": "good",
+      "battery": 77.9,
+      "cpu": 0.36
+    },
+    {
+      "round": 7,
+      "zone": 2,
+      "link_up": true,
+      "state": "good",
+      "battery": 57.9,
+      "cpu": 0.25
+    },
+    {
+      "round": 7,
+      "zone": 3,
+      "link_up": true,
+      "state": "good",
+      "battery": 62.8,
+      "cpu": 0.37
+    },
+    {
+      "round": 8,
+      "zone": 0,
+      "link_up": true,
+      "state": "good",
+      "battery": 78.4,
+      "cpu": 0.42
+    },
+    {
+      "round": 8,
+      "zone": 1,
+      "link_up": true,
+      "state": "good",
+      "battery": 73.2,
+      "cpu": 0.38
+    },
+    {
+      "round": 8,
+      "zone": 2,
+      "link_up": true,
+      "state": "good",
+      "battery": 61.0,
+      "cpu": 0.36
+    },
+    {
+      "round": 8,
+      "zone": 3,
+      "link_up": true,
+      "state": "good",
+      "battery": 57.8,
+      "cpu": 0.45
+    },
+    {
+      "round": 9,
+      "zone": 0,
+      "link_up": true,
+      "state": "good",
+      "battery": 80.7,
+      "cpu": 0.36
+    },
+    {
+      "round": 9,
+      "zone": 1,
+      "link_up": true,
+      "state": "good",
+      "battery": 68.3,
+      "cpu": 0.31
+    },
+    {
+      "round": 9,
+      "zone": 2,
+      "link_up": true,
+      "state": "good",
+      "battery": 54.2,
+      "cpu": 0.25
+    },
+    {
+      "round": 9,
+      "zone": 3,
+      "link_up": true,
+      "state": "good",
+      "battery": 52.9,
+      "cpu": 0.33
+    },
+    {
+      "round": 10,
+      "zone": 0,
+      "link_up": false,
+      "state": "bad",
+      "battery": 76.0,
+      "cpu": 0.26
+    },
+    {
+      "round": 10,
+      "zone": 1,
+      "link_up": true,
+      "state": "good",
+      "battery": 62.5,
+      "cpu": 0.24
+    },
+    {
+      "round": 10,
+      "zone": 2,
+      "link_up": true,
+      "state": "good",
+      "battery": 49.9,
+      "cpu": 0.31
+    },
+    {
+      "round": 10,
+      "zone": 3,
+      "link_up": true,
+      "state": "good",
+      "battery": 48.0,
+      "cpu": 0.29
+    },
+    {
+      "round": 11,
+      "zone": 0,
+      "link_up": true,
+      "state": "bad",
+      "battery": 72.0,
+      "cpu": 0.3
+    },
+    {
+      "round": 11,
+      "zone": 1,
+      "link_up": true,
+      "state": "good",
+      "battery": 57.5,
+      "cpu": 0.48
+    },
+    {
+      "round": 11,
+      "zone": 2,
+      "link_up": true,
+      "state": "good",
+      "battery": 45.9,
+      "cpu": 0.49
+    },
+    {
+      "round": 11,
+      "zone": 3,
+      "link_up": true,
+      "state": "good",
+      "battery": 43.4,
+      "cpu": 0.34
+    },
+    {
+      "round": 12,
+      "zone": 0,
+      "link_up": false,
+      "state": "bad",
+      "battery": 67.1,
+      "cpu": 0.27
+    },
+    {
+      "round": 12,
+      "zone": 1,
+      "link_up": true,
+      "state": "good",
+      "battery": 52.4,
+      "cpu": 0.21
+    },
+    {
+      "round": 12,
+      "zone": 2,
+      "link_up": true,
+      "state": "good",
+      "battery": 41.7,
+      "cpu": 0.33
+    },
+    {
+      "round": 12,
+      "zone": 3,
+      "link_up": true,
+      "state": "good",
+      "battery": 38.9,
+      "cpu": 0.4
+    },
+    {
+      "round": 13,
+      "zone": 0,
+      "link_up": false,
+      "state": "bad",
+      "battery": 70.6,
+      "cpu": 0.24
+    },
+    {
+      "round": 13,
+      "zone": 1,
+      "link_up": true,
+      "state": "good",
+      "battery": 47.2,
+      "cpu": 0.45
+    },
+    {
+      "round": 13,
+      "zone": 2,
+      "link_up": true,
+      "state": "good",
+      "battery": 37.1,
+      "cpu": 0.33
+    },
+    {
+      "round": 13,
+      "zone": 3,
+      "link_up": true,
+      "state": "good",
+      "battery": 34.6,
+      "cpu": 0.43
+    },
+    {
+      "round": 14,
+      "zone": 0,
+      "link_up": true,
+      "state": "good",
+      "battery": 66.5,
+      "cpu": 0.82
+    },
+    {
+      "round": 14,
+      "zone": 1,
+      "link_up": true,
+      "state": "good",
+      "battery": 42.9,
+      "cpu": 0.27
+    },
+    {
+      "round": 14,
+      "zone": 2,
+      "link_up": true,
+      "state": "good",
+      "battery": 32.9,
+      "cpu": 0.42
+    },
+    {
+      "round": 14,
+      "zone": 3,
+      "link_up": true,
+      "state": "good",
+      "battery": 29.2,
+      "cpu": 0.47
+    },
+    {
+      "round": 15,
+      "zone": 0,
+      "link_up": true,
+      "state": "good",
+      "battery": 62.3,
+      "cpu": 0.24
+    },
+    {
+      "round": 15,
+      "zone": 1,
+      "link_up": true,
+      "state": "good",
+      "battery": 38.7,
+      "cpu": 0.67
+    },
+    {
+      "round": 15,
+      "zone": 2,
+      "link_up": true,
+      "state": "good",
+      "battery": 27.3,
+      "cpu": 0.25
+    },
+    {
+      "round": 15,
+      "zone": 3,
+      "link_up": true,
+      "state": "good",
+      "battery": 25.0,
+      "cpu": 0.42
+    },
+    {
+      "round": 16,
+      "zone": 0,
+      "link_up": true,
+      "state": "good",
+      "battery": 57.8,
+      "cpu": 0.43
+    },
+    {
+      "round": 16,
+      "zone": 1,
+      "link_up": false,
+      "state": "bad",
+      "battery": 42.1,
+      "cpu": 0.2
+    },
+    {
+      "round": 16,
+      "zone": 2,
+      "link_up": true,
+      "state": "good",
+      "battery": 21.2,
+      "cpu": 0.42
+    },
+    {
+      "round": 16,
+      "zone": 3,
+      "link_up": true,
+      "state": "good",
+      "battery": 20.8,
+      "cpu": 0.38
+    },
+    {
+      "round": 17,
+      "zone": 0,
+      "link_up": true,
+      "state": "good",
+      "battery": 53.5,
+      "cpu": 0.32
+    },
+    {
+      "round": 17,
+      "zone": 1,
+      "link_up": false,
+      "state": "bad",
+      "battery": 36.9,
+      "cpu": 0.5
+    },
+    {
+      "round": 17,
+      "zone": 2,
+      "link_up": false,
+      "state": "bad",
+      "battery": 15.1,
+      "cpu": 0.88
+    },
+    {
+      "round": 17,
+      "zone": 3,
+      "link_up": true,
+      "state": "bad",
+      "battery": 15.6,
+      "cpu": 0.22
+    },
+    {
+      "round": 18,
+      "zone": 0,
+      "link_up": false,
+      "state": "bad",
+      "battery": 56.8,
+      "cpu": 0.44
+    },
+    {
+      "round": 18,
+      "zone": 1,
+      "link_up": true,
+      "state": "good",
+      "battery": 32.1,
+      "cpu": 0.34
+    },
+    {
+      "round": 18,
+      "zone": 2,
+      "link_up": false,
+      "state": "bad",
+      "battery": 17.5,
+      "cpu": 0.39
+    },
+    {
+      "round": 18,
+      "zone": 3,
+      "link_up": false,
+      "state": "bad",
+      "battery": 19.5,
+      "cpu": 0.54
+    },
+    {
+      "round": 19,
+      "zone": 0,
+      "link_up": false,
+      "state": "bad",
+      "battery": 51.3,
+      "cpu": 0.31
+    },
+    {
+      "round": 19,
+      "zone": 1,
+      "link_up": true,
+      "state": "good",
+      "battery": 27.3,
+      "cpu": 0.89
+    },
+    {
+      "round": 19,
+      "zone": 2,
+      "link_up": true,
+      "state": "good",
+      "battery": 20.1,
+      "cpu": 0.31
+    },
+    {
+      "round": 19,
+      "zone": 3,
+      "link_up": true,
+      "state": "good",
+      "battery": 22.4,
+      "cpu": 0.33
+    },
+    {
+      "round": 20,
+      "zone": 0,
+      "link_up": true,
+      "state": "good",
+      "battery": 55.1,
+      "cpu": 0.73
+    },
+    {
+      "round": 20,
+      "zone": 1,
+      "link_up": true,
+      "state": "good",
+      "battery": 23.0,
+      "cpu": 0.94
+    },
+    {
+      "round": 20,
+      "zone": 2,
+      "link_up": true,
+      "state": "good",
+      "battery": 14.4,
+      "cpu": 0.43
+    },
+    {
+      "round": 20,
+      "zone": 3,
+      "link_up": true,
+      "state": "good",
+      "battery": 16.5,
+      "cpu": 0.34
+    },
+    {
+      "round": 21,
+      "zone": 0,
+      "link_up": true,
+      "state": "good",
+      "battery": 58.4,
+      "cpu": 0.35
+    },
+    {
+      "round": 21,
+      "zone": 1,
+      "link_up": false,
+      "state": "bad",
+      "battery": 26.2,
+      "cpu": 0.26
+    },
+    {
+      "round": 21,
+      "zone": 2,
+      "link_up": true,
+      "state": "good",
+      "battery": 10.0,
+      "cpu": 0.27
+    },
+    {
+      "round": 21,
+      "zone": 3,
+      "link_up": true,
+      "state": "good",
+      "battery": 18.1,
+      "cpu": 0.95
+    },
+    {
+      "round": 22,
+      "zone": 0,
+      "link_up": true,
+      "state": "good",
+      "battery": 62.0,
+      "cpu": 0.88
+    },
+    {
+      "round": 22,
+      "zone": 1,
+      "link_up": false,
+      "state": "bad",
+      "battery": 21.1,
+      "cpu": 0.27
+    },
+    {
+      "round": 22,
+      "zone": 2,
+      "link_up": true,
+      "state": "good",
+      "battery": 4.7,
+      "cpu": 0.29
+    },
+    {
+      "round": 22,
+      "zone": 3,
+      "link_up": false,
+      "state": "bad",
+      "battery": 13.9,
+      "cpu": 0.2
+    },
+    {
+      "round": 23,
+      "zone": 0,
+      "link_up": true,
+      "state": "good",
+      "battery": 57.7,
+      "cpu": 0.12
+    },
+    {
+      "round": 23,
+      "zone": 1,
+      "link_up": true,
+      "state": "bad",
+      "battery": 16.4,
+      "cpu": 0.27
+    },
+    {
+      "round": 23,
+      "zone": 2,
+      "link_up": true,
+      "state": "good",
+      "battery": 0.4,
+      "cpu": 0.23
+    },
+    {
+      "round": 23,
+      "zone": 3,
+      "link_up": false,
+      "state": "bad",
+      "battery": 8.7,
+      "cpu": 0.28
+    }
+  ],
+  "ablation": [
+    {
+      "stage": "1_sync_ddil",
+      "acc_mean": 0.815,
+      "acc_std": 0.0757,
+      "f1_mean": 0.7385,
+      "f1_std": 0.0588,
+      "marginal_delta_acc": ""
+    },
+    {
+      "stage": "2_+async",
+      "acc_mean": 0.7418,
+      "acc_std": 0.0933,
+      "f1_mean": 0.6846,
+      "f1_std": 0.0695,
+      "marginal_delta_acc": -0.0731
+    },
+    {
+      "stage": "3_+staleness",
+      "acc_mean": 0.7417,
+      "acc_std": 0.0928,
+      "f1_mean": 0.6832,
+      "f1_std": 0.0694,
+      "marginal_delta_acc": -0.0001
+    },
+    {
+      "stage": "4_+resource",
+      "acc_mean": 0.7293,
+      "acc_std": 0.079,
+      "f1_mean": 0.6542,
+      "f1_std": 0.0553,
+      "marginal_delta_acc": -0.0124
+    },
+    {
+      "stage": "5_+compression",
+      "acc_mean": 0.7293,
+      "acc_std": 0.079,
+      "f1_mean": 0.6542,
+      "f1_std": 0.0553,
+      "marginal_delta_acc": -0.0
+    }
+  ],
+  "byzantine": [
+    {
+      "attack": "gaussian",
+      "aggregation": "mean",
+      "acc_mean": 0.6557,
+      "acc_std": 0.0416,
+      "f1_mean": 0.1547,
+      "f1_std": 0.1878
+    },
+    {
+      "attack": "gaussian",
+      "aggregation": "trimmed_mean",
+      "acc_mean": 0.6984,
+      "acc_std": 0.0248,
+      "f1_mean": 0.2957,
+      "f1_std": 0.2861
+    },
+    {
+      "attack": "gaussian",
+      "aggregation": "median",
+      "acc_mean": 0.6281,
+      "acc_std": 0.1713,
+      "f1_mean": 0.0889,
+      "f1_std": 0.1777
+    }
+  ],
+  "convergence": {
+    "acc_mean": [
+      0.628,
+      0.6284,
+      0.6259,
+      0.6697,
+      0.6418,
+      0.6155,
+      0.6421,
+      0.6688,
+      0.671,
+      0.6708,
+      0.6709,
+      0.6708,
+      0.6707,
+      0.7039,
+      0.7062,
+      0.7063,
+      0.7389,
+      0.7389,
+      0.739,
+      0.7389,
+      0.7392,
+      0.7395,
+      0.7291,
+      0.7293
+    ],
+    "acc_std": [
+      0.1712,
+      0.1703,
+      0.1691,
+      0.092,
+      0.0762,
+      0.0643,
+      0.048,
+      0.009,
+      0.007,
+      0.0071,
+      0.0071,
+      0.0071,
+      0.0072,
+      0.0687,
+      0.0681,
+      0.068,
+      0.09,
+      0.09,
+      0.0901,
+      0.09,
+      0.0898,
+      0.0897,
+      0.0791,
+      0.079
+    ]
+  },
+  "cross_domain": [
+    {
+      "config": "classifier_only",
+      "accuracy": 0.6343,
+      "precision": 0.6228,
+      "recall": 0.8514,
+      "f1": 0.7194
+    },
+    {
+      "config": "fusion_A1C1",
+      "accuracy": 0.5881,
+      "precision": 0.5811,
+      "recall": 0.9027,
+      "f1": 0.707
+    }
+  ],
+  "cross_domain_meta": {
+    "target": "UNSW-NB15",
+    "n_target": 50000,
+    "zaid_ref": {
+      "acc": 0.7164,
+      "prec": 0.7599,
+      "rec": 0.6275,
+      "f1": 0.6794
+    }
+  }
+}

@@ -1,0 +1,588 @@
+<title>FedZD Test Range</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#eef2ee; --surface:#ffffff; --surface-2:#f6f8f5; --line:#d5ddd6;
+  --ink:#141c17; --muted:#5a6b60; --faint:#8a998f;
+  --accent:#1f7a63; --accent-ink:#0c3a2e;
+  --signal:#2f6f9f; --good:#2e8b62; --warn:#c6871a; --crit:#c23b32; --jam:#d64545;
+  --zone:#3a7ca5;
+  --shadow:0 1px 2px rgba(20,28,23,.06),0 6px 20px rgba(20,28,23,.06);
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --sans:'IBM Plex Sans',system-ui,sans-serif;
+  --disp:'Chakra Petch','IBM Plex Sans',system-ui,sans-serif;
+}
+:root:not([data-theme="light"]){ @media (prefers-color-scheme:dark){
+  --bg:#0d1411; --surface:#141d18; --surface-2:#101815; --line:#26332b;
+  --ink:#e7efe8; --muted:#9aab9f; --faint:#6d7d72;
+  --accent:#3fae8e; --accent-ink:#bff0e0;
+  --signal:#5aa0cf; --good:#4fbf85; --warn:#e0a63c; --crit:#e5645b; --jam:#e5645b;
+  --zone:#63a7cf;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 26px rgba(0,0,0,.35);
+}}
+:root[data-theme="dark"]{
+  --bg:#0d1411; --surface:#141d18; --surface-2:#101815; --line:#26332b;
+  --ink:#e7efe8; --muted:#9aab9f; --faint:#6d7d72;
+  --accent:#3fae8e; --accent-ink:#bff0e0;
+  --signal:#5aa0cf; --good:#4fbf85; --warn:#e0a63c; --crit:#e5645b; --jam:#e5645b;
+  --zone:#63a7cf;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 26px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);
+  line-height:1.5;margin:0;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding-block:22px;padding-inline:18px}
+h1,h2,h3{font-family:var(--disp);text-wrap:balance;margin:0;letter-spacing:.2px}
+a{color:var(--accent)}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--muted)}
+.mono{font-family:var(--mono)}
+.tnum{font-variant-numeric:tabular-nums}
+
+/* status bar */
+.status{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center;
+  background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  padding:12px 16px;box-shadow:var(--shadow)}
+.brandmark{width:34px;height:34px;border-radius:9px;flex:none;
+  background:linear-gradient(150deg,var(--accent),var(--signal));
+  display:grid;place-items:center;color:#fff;font-family:var(--disp);font-weight:700}
+.status .live{display:flex;align-items:center;gap:7px;font-family:var(--mono);
+  font-size:12px;color:var(--muted);margin-left:auto}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--good);
+  box-shadow:0 0 0 0 rgba(46,139,98,.5);animation:pulse 1.8s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(46,139,98,.45)}70%{box-shadow:0 0 0 7px rgba(46,139,98,0)}100%{box-shadow:0 0 0 0 rgba(46,139,98,0)}}
+
+.hero{margin:22px 0 6px}
+.hero h1{font-size:clamp(26px,4.4vw,42px);line-height:1.06}
+.hero p{color:var(--muted);max-width:64ch;margin:10px 0 0;font-size:16px}
+
+.prov{margin-top:14px;display:flex;gap:10px;align-items:flex-start;
+  background:color-mix(in oklab,var(--warn) 12%,var(--surface));
+  border:1px solid color-mix(in oklab,var(--warn) 40%,var(--line));
+  border-radius:12px;padding:11px 14px;font-size:13.5px}
+.prov b{font-family:var(--disp)}
+.prov .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--warn);border:1px solid currentColor;
+  border-radius:6px;padding:2px 6px;flex:none;margin-top:1px}
+
+section{margin-top:26px}
+.sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:14px}
+.sec-head h2{font-size:20px}
+.sec-head .n{font-family:var(--mono);color:var(--accent);font-size:13px}
+
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:760px){.g2,.g3,.g4{grid-template-columns:1fr}}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  padding:16px;box-shadow:var(--shadow)}
+.card h3{font-size:15px;margin-bottom:8px}
+.card p{margin:0;color:var(--muted);font-size:14px}
+.card .ico{font-family:var(--mono);font-size:11px;color:var(--accent);
+  letter-spacing:.1em;text-transform:uppercase}
+
+/* metric tiles */
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  padding:15px 16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:3px}
+.tile .k{font-family:var(--mono);font-size:11px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--muted)}
+.tile .v{font-family:var(--disp);font-size:30px;font-weight:700;line-height:1}
+.tile .s{font-size:12.5px;color:var(--faint)}
+.tile.good{border-left:3px solid var(--good)}
+.tile.warn{border-left:3px solid var(--warn)}
+.tile.crit{border-left:3px solid var(--crit)}
+.tile.acc{border-left:3px solid var(--accent)}
+
+/* live console */
+.console{background:var(--surface);border:1px solid var(--line);border-radius:16px;
+  box-shadow:var(--shadow);overflow:hidden}
+.console-top{display:flex;flex-wrap:wrap;gap:10px;align-items:center;
+  padding:12px 16px;border-bottom:1px solid var(--line);background:var(--surface-2)}
+.console-top .rlabel{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.console-top .rlabel b{color:var(--ink);font-weight:600}
+.btns{display:flex;gap:8px;margin-left:auto}
+button.ctl{font-family:var(--mono);font-size:12.5px;cursor:pointer;
+  background:var(--surface);color:var(--ink);border:1px solid var(--line);
+  border-radius:9px;padding:7px 13px;transition:.15s}
+button.ctl:hover{border-color:var(--accent);color:var(--accent)}
+button.ctl.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+button.ctl:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.console-body{display:grid;grid-template-columns:1.15fr 1fr;gap:0}
+@media(max-width:820px){.console-body{grid-template-columns:1fr}}
+.range{position:relative;padding:16px;border-right:1px solid var(--line);min-height:340px}
+@media(max-width:820px){.range{border-right:none;border-bottom:1px solid var(--line)}}
+.feed{padding:14px 16px;display:flex;flex-direction:column;gap:8px;min-height:340px}
+.feed h4,.range h4{font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+
+svg.map{width:100%;height:auto;display:block}
+.zbox text,.srv text{font-family:var(--sans)}
+
+/* detection rows */
+.det{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;
+  border:1px solid var(--line);border-radius:11px;padding:9px 11px;
+  background:var(--surface-2);animation:slidein .35s ease}
+@keyframes slidein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.det .zn{font-family:var(--mono);font-size:10.5px;color:var(--faint);
+  writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:.05em}
+.det .mid{min-width:0}
+.det .fam{font-family:var(--disp);font-weight:600;font-size:14px;display:flex;
+  align-items:center;gap:7px}
+.badge{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;
+  text-transform:uppercase;padding:2px 6px;border-radius:5px;border:1px solid currentColor}
+.badge.zd{color:var(--crit)}
+.badge.seen{color:var(--signal)}
+.det .bar{height:6px;border-radius:4px;background:var(--line);margin-top:7px;position:relative;overflow:hidden}
+.det .bar>i{position:absolute;inset:0 auto 0 0;border-radius:4px;background:var(--accent)}
+.det .bar>.thr{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--ink);opacity:.5}
+.det .meta{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:5px}
+.verdict{font-family:var(--mono);font-size:11px;text-align:right;white-space:nowrap}
+.verdict .ok{color:var(--good)}.verdict .no{color:var(--crit)}
+.verdict .pv{font-weight:600}
+
+/* bars for results */
+.rowbar{display:grid;grid-template-columns:130px 1fr 54px;gap:10px;align-items:center;
+  margin-bottom:9px;font-size:13.5px}
+.rowbar .lab{font-family:var(--mono);font-size:12px;color:var(--muted);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rowbar .track{height:20px;background:var(--surface-2);border:1px solid var(--line);
+  border-radius:6px;overflow:hidden}
+.rowbar .track>i{display:block;height:100%;border-radius:5px 0 0 5px}
+.rowbar .val{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;font-size:12.5px}
+
+table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+table.tbl th,table.tbl td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+table.tbl th{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--muted);font-weight:500}
+table.tbl td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right}
+table.tbl tr:last-child td{border-bottom:none}
+.delta.pos{color:var(--good)}.delta.neg{color:var(--crit)}
+
+canvas{display:block;width:100%;height:auto}
+
+footer{margin:34px 0 8px;color:var(--faint);font-size:12.5px;
+  border-top:1px solid var(--line);padding-top:16px;font-family:var(--mono)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:11.5px;
+  color:var(--muted);margin-top:10px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.swatch{width:20px;height:0;border-top:2px solid}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+
+  <div class="status">
+    <div class="brandmark">FZ</div>
+    <div>
+      <div class="eyebrow">Federated Zero-Day IDS · Test &amp; Evaluation</div>
+      <div style="font-family:var(--disp);font-weight:600;font-size:15px">FedZD / RA-BFed Test Range</div>
+    </div>
+    <div class="live"><span class="dot"></span><span id="livestat">SIMULATION IDLE</span></div>
+  </div>
+
+  <div class="hero">
+    <h1>Where and how we test the tactical intrusion-detection framework</h1>
+    <p>A simulation-based test range that runs the full federated pipeline the way it would
+      run in the field — four tactical zones detecting intrusions on their own traffic,
+      over jamming-prone links, while the server fuses their models to catch
+      <em>zero-day</em> attacks it was never trained on. Every figure below comes from an
+      actual executed run, not a mock-up.</p>
+    <div class="prov">
+      <span class="tag" id="provtag">Validation run</span>
+      <div id="provtext"></div>
+    </div>
+  </div>
+
+  <!-- WHAT + WHERE -->
+  <section>
+    <div class="sec-head"><span class="n">01</span><h2>What we are testing, and on what</h2></div>
+    <div class="grid g3">
+      <div class="card">
+        <div class="ico">The application</div>
+        <h3>A federated intrusion-detection system for tactical edge networks</h3>
+        <p>Each edge node trains a local CNN classifier + autoencoder on its own network
+          traffic and shares only model updates — never raw data — so detection works
+          under bandwidth, privacy and connectivity limits.</p>
+      </div>
+      <div class="card">
+        <div class="ico">The test method</div>
+        <h3>Reproducible software simulation (Python / PyTorch)</h3>
+        <p>There is no physical hardware testbed: the tactical network is <b>simulated</b> —
+          4 zones, a Gilbert–Elliott jammed channel, and battery/CPU models — so every
+          run is seed-controlled and repeatable. This is the standard evaluation method
+          for this class of research.</p>
+      </div>
+      <div class="card">
+        <div class="ico">The data</div>
+        <h3>ToN_IoT (primary) &amp; UNSW-NB15 (transfer)</h3>
+        <p>Public network-intrusion datasets. MITM, DDoS and DoS families are
+          <b>withheld from training</b> and injected only at test time to measure true
+          zero-day detection — the same protocol as the baseline paper (ZAID).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HEADLINE METRICS -->
+  <section>
+    <div class="sec-head"><span class="n">02</span><h2>Headline results</h2></div>
+    <div class="grid g4" id="tiles"></div>
+  </section>
+
+  <!-- LIVE TESTING -->
+  <section>
+    <div class="sec-head"><span class="n">03</span><h2>Live testing — federated detection in progress</h2></div>
+    <div class="console">
+      <div class="console-top">
+        <div class="rlabel">Round <b id="rnum">0</b> / <span id="rtot">0</span>
+          &nbsp;·&nbsp; <span id="upcount">—</span></div>
+        <div class="btns">
+          <button class="ctl primary" id="play">▶ Run test</button>
+          <button class="ctl" id="step">Step</button>
+          <button class="ctl" id="reset">Reset</button>
+        </div>
+      </div>
+      <div class="console-body">
+        <div class="range">
+          <h4>Tactical zones → aggregation server</h4>
+          <svg class="map" viewBox="0 0 520 300" id="map" role="img"
+            aria-label="Tactical zones connecting to the aggregation server"></svg>
+          <div class="legend">
+            <span><span class="swatch" style="border-color:var(--good)"></span>link up</span>
+            <span><span class="swatch" style="border-color:var(--jam);border-top-style:dashed"></span>jammed</span>
+            <span><span class="swatch" style="border-color:var(--crit)"></span>attack detected</span>
+          </div>
+        </div>
+        <div class="feed">
+          <h4>Detection feed — predicted vs actual</h4>
+          <div id="feed" style="display:flex;flex-direction:column;gap:8px"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section>
+    <div class="sec-head"><span class="n">04</span><h2>Detailed results</h2></div>
+    <div class="grid g2">
+      <div class="card">
+        <div class="ico">Zero-day detection · recall by attack family</div>
+        <h3 style="margin-bottom:12px">Caught without ever training on them</h3>
+        <div id="fambars"></div>
+        <p style="margin-top:8px;font-size:12.5px">Withheld (zero-day) families in red. Aggregate
+          accuracy hides these rare classes, so we report per-family recall directly.</p>
+      </div>
+      <div class="card">
+        <div class="ico">Byzantine robustness · accuracy under model poisoning</div>
+        <h3 style="margin-bottom:12px">Robust aggregation resists compromised nodes</h3>
+        <div id="byzbars"></div>
+        <p style="margin-top:8px;font-size:12.5px">25% of nodes inject Gaussian-noise poison.
+          Plain averaging collapses; coordinate-wise trimmed-mean holds. Mean ± std over seeds.</p>
+      </div>
+    </div>
+    <div class="grid g2" style="margin-top:14px">
+      <div class="card">
+        <div class="ico">Ablation · marginal contribution of each mechanism</div>
+        <h3 style="margin-bottom:12px">Building up the framework</h3>
+        <table class="tbl" id="abltbl"></table>
+      </div>
+      <div class="card">
+        <div class="ico">Convergence · full model, mean ± std across seeds</div>
+        <h3 style="margin-bottom:12px">Accuracy per aggregation step</h3>
+        <canvas id="conv" width="520" height="240"></canvas>
+      </div>
+    </div>
+    <div class="grid g2" style="margin-top:14px" id="xdomwrap" hidden>
+      <div class="card">
+        <div class="ico">Cross-domain transfer · trained on ToN_IoT, tested on UNSW-NB15</div>
+        <h3 style="margin-bottom:12px">Generalizing to a different network</h3>
+        <table class="tbl" id="xdomtbl"></table>
+        <p style="margin-top:8px;font-size:12.5px" id="xdomnote"></p>
+      </div>
+      <div class="card">
+        <div class="ico">Fusion trade-off · overall accuracy vs zero-day recall</div>
+        <h3 style="margin-bottom:12px">Why we fuse the autoencoder signal</h3>
+        <div id="fusetrade"></div>
+        <p style="margin-top:8px;font-size:12.5px">Shifting weight to the autoencoder
+          signal lifts zero-day recall (rare withheld families) at a small cost to
+          aggregate accuracy — so the fused score, not the classifier alone, is reported.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer id="foot"></footer>
+</div>
+
+<script>
+const DATA = __SHOWCASE_DATA__;
+const $=(s,e=document)=>e.querySelector(s);
+const el=(t,c,h)=>{const n=document.createElement(t);if(c)n.className=c;if(h!=null)n.innerHTML=h;return n;};
+const pct=x=>Math.round(x*1000)/10;
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+
+/* ---------- provenance ---------- */
+$('#provtag').textContent = DATA.meta.data_source==='csv' ? 'Real ToN_IoT' : 'Validation run';
+$('#provtext').innerHTML = DATA.meta.data_source==='csv'
+  ? '<b>Real ToN_IoT run ('+(DATA.meta.total_rows||'').toLocaleString()+' rows, '+DATA.meta.n_features+' selected features).</b> Every number below is from the actual ToN_IoT network-intrusion dataset run through the pipeline on this machine, subsampled to fit CPU. Full-scale runs on the complete 461K-row dataset are a config flag away on a GPU box.'
+  : '<b>System-validation run on synthetic ToN_IoT-schema data.</b> The pipeline, detection logic and every mechanism run exactly as they will on the real datasets — these numbers demonstrate the working system. Final published numbers come from the real ToN_IoT / UNSW-NB15 CSVs run through this identical code.';
+
+/* ---------- headline tiles ---------- */
+const zd = DATA.per_family.filter(r=>r.is_zero_day);
+const zdRecall = zd.reduce((a,r)=>a+r.recall,0)/zd.length;
+const full = DATA.ablation.find(r=>r.stage==='5_+compression')||DATA.ablation[DATA.ablation.length-1];
+const byzMean = DATA.byzantine.find(b=>b.aggregation==='mean');
+const byzRobust = DATA.byzantine.find(b=>b.aggregation==='trimmed_mean');
+const tiles=[
+  {cls:'acc',k:'Detection accuracy',v:pct(full.acc_mean)+'%',s:'±'+pct(full.acc_std)+' over seeds'},
+  {cls:'good',k:'Zero-day recall',v:pct(zdRecall)+'%',s:'MITM · DDoS · DoS (withheld)'},
+  {cls:'warn',k:'Robustness gain',v:'+'+pct(byzRobust.acc_mean-byzMean.acc_mean)+'%',s:'trimmed-mean vs mean, under attack'},
+  {cls:'crit',k:'Live sample check',v:'—',s:'streams during the test run'},
+];
+const tilesWrap=$('#tiles');
+tiles.forEach(t=>{const d=el('div','tile '+t.cls);
+  d.innerHTML=`<div class="k">${t.k}</div><div class="v tnum" data-k="${t.k}">${t.v}</div><div class="s">${t.s}</div>`;
+  tilesWrap.appendChild(d);});
+
+/* ---------- family bars ---------- */
+const fam=$('#fambars');
+[...DATA.per_family].sort((a,b)=>b.recall-a.recall).forEach(r=>{
+  const c=r.is_zero_day?'var(--crit)':'var(--signal)';
+  const row=el('div','rowbar');
+  row.innerHTML=`<div class="lab">${r.family}${r.is_zero_day?' ●':''}</div>
+    <div class="track"><i style="width:${pct(r.recall)}%;background:${c}"></i></div>
+    <div class="val">${r.recall.toFixed(2)}</div>`;
+  fam.appendChild(row);});
+
+/* ---------- byzantine bars ---------- */
+const byz=$('#byzbars');
+const order={mean:0,trimmed_mean:1,median:2};
+[...DATA.byzantine].sort((a,b)=>order[a.aggregation]-order[b.aggregation]).forEach(r=>{
+  const robust=r.aggregation!=='mean';
+  const row=el('div','rowbar');
+  row.innerHTML=`<div class="lab">${r.aggregation.replace('_',' ')}</div>
+    <div class="track"><i style="width:${pct(r.acc_mean)}%;background:${robust?'var(--good)':'var(--crit)'}"></i></div>
+    <div class="val">${pct(r.acc_mean)}%</div>`;
+  byz.appendChild(row);});
+
+/* ---------- ablation table ---------- */
+const t=$('#abltbl');
+t.innerHTML='<thead><tr><th>Stage</th><th style="text-align:right">Accuracy</th><th style="text-align:right">Δ acc</th></tr></thead>';
+const tb=el('tbody');
+const nice={'1_sync_ddil':'Baseline (sync FedAvg, DDIL)','2_+async':'+ Asynchronous',
+  '3_+staleness':'+ Staleness weighting','4_+resource':'+ Resource-aware','5_+compression':'+ Compression'};
+DATA.ablation.forEach(r=>{
+  const d=r.marginal_delta_acc;
+  const dtxt = d===''||d==null ? '—' : (d>0?'+':'')+ (d*100).toFixed(2)+'%';
+  const dcls = d>0?'delta pos':(d<0?'delta neg':'');
+  tb.appendChild(el('tr',null,
+    `<td>${nice[r.stage]||r.stage}</td>
+     <td class="n">${pct(r.acc_mean)}% <span style="color:var(--faint)">± ${pct(r.acc_std)}</span></td>
+     <td class="n ${dcls}">${dtxt}</td>`));
+});
+t.appendChild(tb);
+
+/* ---------- convergence canvas ---------- */
+function drawConv(){
+  const c=$('#conv'),ctx=c.getContext('2d');
+  const DPR=window.devicePixelRatio||1; const W=c.clientWidth||520,H=240;
+  c.width=W*DPR;c.height=H*DPR;ctx.scale(DPR,DPR);
+  ctx.clearRect(0,0,W,H);
+  const m=DATA.convergence.acc_mean, s=DATA.convergence.acc_std;
+  if(!m.length){return;}
+  const pad={l:38,r:12,t:14,b:26};
+  const x=i=>pad.l+(W-pad.l-pad.r)*(i/(m.length-1));
+  const y=v=>pad.t+(H-pad.t-pad.b)*(1-v);
+  ctx.strokeStyle=css('--line');ctx.lineWidth=1;ctx.fillStyle=css('--faint');
+  ctx.font="11px "+css('--mono').replace(/'/g,'');
+  for(let g=0;g<=4;g++){const v=g/4;const yy=y(v);
+    ctx.globalAlpha=.5;ctx.beginPath();ctx.moveTo(pad.l,yy);ctx.lineTo(W-pad.r,yy);ctx.stroke();
+    ctx.globalAlpha=1;ctx.fillText(v.toFixed(2),6,yy+3);}
+  // std band
+  ctx.fillStyle=css('--accent');ctx.globalAlpha=.15;ctx.beginPath();
+  m.forEach((v,i)=>{const yy=y(Math.min(1,v+s[i]));i?ctx.lineTo(x(i),yy):ctx.moveTo(x(i),yy);});
+  for(let i=m.length-1;i>=0;i--){ctx.lineTo(x(i),y(Math.max(0,m[i]-s[i])));}
+  ctx.closePath();ctx.fill();ctx.globalAlpha=1;
+  // mean line
+  ctx.strokeStyle=css('--accent');ctx.lineWidth=2;ctx.beginPath();
+  m.forEach((v,i)=>{i?ctx.lineTo(x(i),y(v)):ctx.moveTo(x(i),y(v));});ctx.stroke();
+  // endpoint
+  ctx.fillStyle=css('--accent');ctx.beginPath();ctx.arc(x(m.length-1),y(m[m.length-1]),3.5,0,7);ctx.fill();
+  ctx.fillStyle=css('--muted');ctx.fillText('step',W/2-10,H-6);
+}
+drawConv(); window.addEventListener('resize',drawConv);
+
+/* ---------- cross-domain transfer (UNSW) ---------- */
+if(DATA.cross_domain && DATA.cross_domain.length){
+  $('#xdomwrap').hidden=false;
+  const xt=$('#xdomtbl');
+  xt.innerHTML='<thead><tr><th>Configuration</th><th style="text-align:right">Acc</th><th style="text-align:right">Prec</th><th style="text-align:right">Recall</th><th style="text-align:right">F1</th></tr></thead>';
+  const xb=el('tbody');
+  DATA.cross_domain.forEach(r=>xb.appendChild(el('tr',null,
+    `<td>${r.config.replace('_',' ')}</td><td class="n">${pct(r.accuracy)}%</td>
+     <td class="n">${pct(r.precision)}%</td><td class="n">${pct(r.recall)}%</td>
+     <td class="n">${pct(r.f1)}%</td>`)));
+  const ref=DATA.cross_domain_meta&&DATA.cross_domain_meta.zaid_ref;
+  if(ref) xb.appendChild(el('tr',null,
+    `<td style="color:var(--faint)">ZAID reported</td><td class="n" style="color:var(--faint)">${pct(ref.acc)}%</td>
+     <td class="n" style="color:var(--faint)">${pct(ref.prec)}%</td><td class="n" style="color:var(--faint)">${pct(ref.rec)}%</td>
+     <td class="n" style="color:var(--faint)">${pct(ref.f1)}%</td>`));
+  xt.appendChild(xb);
+  $('#xdomnote').textContent='Via the shared 5-feature space, no target-domain retraining. Comparable to the ZAID baseline (greyed).';
+}
+
+/* ---------- fusion trade-off (overall acc vs zero-day recall) ---------- */
+if(DATA.fusion_sweep && DATA.fusion_sweep.length){
+  const ft=$('#fusetrade');
+  const rows=DATA.fusion_sweep.filter(r=>['classifier_only','zaid_best','equal'].includes(r.weights));
+  rows.forEach(r=>{
+    const nm=r.weights==='classifier_only'?'classifier only':(r.weights==='zaid_best'?'ZAID weights':'equal (A=C=U)');
+    ft.appendChild(el('div','rowbar',
+      `<div class="lab">${nm}</div>
+       <div class="track" style="position:relative">
+         <i style="width:${pct(r.accuracy)}%;background:var(--signal);opacity:.55"></i>
+         <span style="position:absolute;top:0;bottom:0;left:${pct(r.zero_day_recall)}%;width:2px;background:var(--crit)"></span>
+       </div>
+       <div class="val">${pct(r.zero_day_recall)}%</div>`));
+  });
+  ft.appendChild(el('div','legend',
+    '<span><span class="swatch" style="border-color:var(--signal)"></span>overall accuracy (bar)</span>'
+    +'<span><span class="swatch" style="border-color:var(--crit)"></span>zero-day recall (marker)</span>'));
+}
+
+/* ---------- live map + feed animation ---------- */
+const ZONES=DATA.meta.zone_roles, NZ=ZONES.length;
+const trace=DATA.channel_trace, ROUNDS=Math.max(...trace.map(c=>c.round))+1;
+$('#rtot').textContent=ROUNDS;
+const samples=DATA.sample_predictions;
+const map=$('#map');
+const zoneNodes=[];
+// build map svg
+function buildMap(){
+  map.innerHTML='';
+  const svgns='http://www.w3.org/2000/svg';
+  const sx=430, sy=150; // server pos
+  // links first
+  for(let z=0;z<NZ;z++){
+    const zy=40+z*70;
+    const ln=document.createElementNS(svgns,'path');
+    ln.setAttribute('d',`M110,${zy+18} C 250,${zy+18} 300,${sy} ${sx-38},${sy}`);
+    ln.setAttribute('fill','none');ln.setAttribute('stroke-width','2.5');
+    ln.setAttribute('id','lnk'+z);map.appendChild(ln);
+  }
+  // zones
+  for(let z=0;z<NZ;z++){
+    const zy=40+z*70;
+    const g=document.createElementNS(svgns,'g');g.setAttribute('class','zbox');
+    const r=document.createElementNS(svgns,'rect');
+    r.setAttribute('x',12);r.setAttribute('y',zy);r.setAttribute('width',98);r.setAttribute('height',40);
+    r.setAttribute('rx',9);r.setAttribute('fill',css('--surface-2'));
+    r.setAttribute('stroke',css('--zone'));r.setAttribute('stroke-width','1.5');r.setAttribute('id','zr'+z);
+    g.appendChild(r);
+    const nm=document.createElementNS(svgns,'text');
+    nm.setAttribute('x',61);nm.setAttribute('y',zy+17);nm.setAttribute('text-anchor','middle');
+    nm.setAttribute('font-size','10');nm.setAttribute('font-weight','600');nm.setAttribute('fill',css('--ink'));
+    nm.textContent='Z'+(z+1)+' · '+ZONES[z].split(' ')[0];g.appendChild(nm);
+    const bat=document.createElementNS(svgns,'text');
+    bat.setAttribute('x',61);bat.setAttribute('y',zy+31);bat.setAttribute('text-anchor','middle');
+    bat.setAttribute('font-size','9');bat.setAttribute('fill',css('--muted'));
+    bat.setAttribute('id','bat'+z);bat.setAttribute('font-family',css('--mono').replace(/'/g,''));
+    bat.textContent='batt —';g.appendChild(bat);
+    map.appendChild(g);
+    zoneNodes.push({r,bat});
+  }
+  // server
+  const g=document.createElementNS(svgns,'g');g.setAttribute('class','srv');
+  const r=document.createElementNS(svgns,'rect');
+  r.setAttribute('x',sx-38);r.setAttribute('y',sy-30);r.setAttribute('width',76);r.setAttribute('height',60);
+  r.setAttribute('rx',11);r.setAttribute('fill',css('--surface-2'));r.setAttribute('stroke',css('--accent'));
+  r.setAttribute('stroke-width','2');r.setAttribute('id','srvr');g.appendChild(r);
+  const tx=document.createElementNS(svgns,'text');
+  tx.setAttribute('x',sx);tx.setAttribute('y',sy-4);tx.setAttribute('text-anchor','middle');
+  tx.setAttribute('font-size','10');tx.setAttribute('font-weight','700');tx.setAttribute('fill',css('--ink'));
+  tx.textContent='AGGREGATE';g.appendChild(tx);
+  const tx2=document.createElementNS(svgns,'text');
+  tx2.setAttribute('x',sx);tx2.setAttribute('y',sy+10);tx2.setAttribute('text-anchor','middle');
+  tx2.setAttribute('font-size','8.5');tx2.setAttribute('fill',css('--muted'));
+  tx2.textContent='robust · async';g.appendChild(tx2);
+  map.appendChild(g);
+}
+buildMap();
+
+let round=0, timer=null, feedIdx=0, liveCorrect=0, liveTotal=0;
+function renderRound(r){
+  $('#rnum').textContent=r+1;
+  const rows=trace.filter(c=>c.round===r);
+  let up=0;
+  rows.forEach(c=>{
+    const lnk=$('#lnk'+c.zone), zr=$('#zr'+c.zone), bat=$('#bat'+c.zone);
+    if(c.link_up){up++;lnk.setAttribute('stroke',css('--good'));lnk.setAttribute('stroke-dasharray','none');lnk.setAttribute('opacity','.9');}
+    else{lnk.setAttribute('stroke',css('--jam'));lnk.setAttribute('stroke-dasharray','5 5');lnk.setAttribute('opacity','.8');}
+    zr.setAttribute('stroke',c.link_up?css('--zone'):css('--jam'));
+    if(bat) bat.textContent='batt '+Math.round(c.battery)+'%';
+  });
+  $('#upcount').innerHTML=`<span style="color:var(--good)">${up} online</span> · <span style="color:var(--jam)">${NZ-up} jammed</span>`;
+  // server pulse
+  const s=$('#srvr'); if(s){s.setAttribute('stroke-width','3');setTimeout(()=>s&&s.setAttribute('stroke-width','2'),260);}
+  // stream 2 detections
+  for(let k=0;k<2;k++){pushDetection(samples[feedIdx%samples.length]);feedIdx++;}
+}
+function pushDetection(sp){
+  const feed=$('#feed');
+  const attackPred=sp.pred==='ATTACK';
+  const row=el('div','det');
+  const scorePct=Math.min(100,Math.max(3,sp.anomaly_score/4*100));
+  const thrPct=Math.min(100,sp.threshold/4*100);
+  row.innerHTML=`
+    <div class="zn">Z${sp.zone+1}</div>
+    <div class="mid">
+      <div class="fam">${sp.family}
+        <span class="badge ${sp.is_zero_day?'zd':'seen'}">${sp.is_zero_day?'zero-day':'known'}</span></div>
+      <div class="bar"><i style="width:${scorePct}%;background:${attackPred?'var(--crit)':'var(--good)'}"></i>
+        <span class="thr" style="left:${thrPct}%"></span></div>
+      <div class="meta">score ${sp.anomaly_score.toFixed(2)} · thr ${sp.threshold.toFixed(1)} · A${sp.lambda_A} C${sp.lambda_C} U${sp.lambda_U}</div>
+    </div>
+    <div class="verdict">
+      <div>pred <span class="pv" style="color:${attackPred?'var(--crit)':'var(--good)'}">${sp.pred}</span></div>
+      <div>true ${sp.true}</div>
+      <div class="${sp.correct?'ok':'no'}">${sp.correct?'✓ correct':'✗ miss'}</div>
+    </div>`;
+  feed.prepend(row);
+  while(feed.children.length>7) feed.removeChild(feed.lastChild);
+  liveTotal++; if(sp.correct) liveCorrect++;
+  const tile=document.querySelector('[data-k="Live sample check"]');
+  if(tile) tile.textContent=liveCorrect+'/'+liveTotal;
+}
+function step(){ renderRound(round); round=(round+1)%ROUNDS;
+  if(round===0){ /* loop */ } }
+function play(){
+  if(timer){pause();return;}
+  $('#livestat').textContent='TEST RUNNING';
+  $('#play').textContent='❚❚ Pause';$('#play').classList.remove('primary');
+  timer=setInterval(step,1100); step();
+}
+function pause(){clearInterval(timer);timer=null;
+  $('#play').textContent='▶ Run test';$('#play').classList.add('primary');
+  $('#livestat').textContent='PAUSED';}
+function reset(){pause();round=0;feedIdx=0;liveCorrect=0;liveTotal=0;
+  $('#feed').innerHTML='';$('#rnum').textContent=0;$('#upcount').textContent='—';
+  $('#livestat').textContent='SIMULATION IDLE';
+  const tile=document.querySelector('[data-k="Live sample check"]');if(tile)tile.textContent='—';
+  for(let z=0;z<NZ;z++){const zr=$('#zr'+z);zr&&zr.setAttribute('stroke',css('--zone'));
+    const lnk=$('#lnk'+z);lnk&&lnk.setAttribute('stroke',css('--line'));lnk&&lnk.setAttribute('stroke-dasharray','none');}}
+$('#play').onclick=play;$('#step').onclick=()=>{$('#livestat').textContent='STEPPING';step();};
+$('#reset').onclick=reset;
+
+/* show a resting frame: first round rendered statically */
+renderRound(0); round=1;
+$('#livestat').textContent='READY — press Run test';
+
+/* footer */
+$('#foot').innerHTML=`FedZD / RA-BFed test range · ${DATA.meta.n_zones} zones · `
+ +`${DATA.meta.n_features} selected features · withheld: ${DATA.meta.withheld_families.join(', ').toUpperCase()} · `
+ +`data source: ${DATA.meta.data_source}. Numbers are from a real executed run and logged; `
+ +`they are not hand-entered.`;
+</script>

@@ -1,0 +1,129 @@
+# Base configuration. Overlays (dataset/experiment configs) and CLI overrides
+# (key.subkey=value) layer on top. Every run snapshots the fully-resolved config.
+experiment: fedzd
+seed: 0
+
+data:
+  schema: toniot_network        # toniot_network | unsw_nb15
+  source: synthetic             # synthetic | csv
+  synthetic:
+    n_samples: 40000            # surrogate size for local validation only
+    separability: 1.1           # family cluster separation (learnability)
+  # For real runs on the GPU box, set:
+  #   source: csv
+  #   csv_globs: ["/data/ToN_IoT/Network_dataset_*.csv"]   # or Train_Test_Network.csv
+  max_rows: null                # optional cap for fast iteration on real data
+
+# Withheld-attack-family zero-day protocol (ZAID-aligned)
+zeroday:
+  withheld_families: [mitm, ddos, dos]
+  seen_fractions:               # must sum to 1.0; seen (non-withheld) families only
+    universal_train: 0.50
+    universal_val: 0.10
+    zone_pool: 0.25
+    test_seen: 0.15
+
+# Feature selection: RF + RFE, then Mutual Information (top fraction).
+feature_selection:
+  rfe_n_features: half          # RFE target ('half' of candidates) or an int
+  mi_top_fraction: 0.40         # keep top 40% by MI (ZAID) unless final_n_features set
+  final_n_features: null        # hard override, e.g. 32 to match ZAID on real data
+  max_rows_for_selection: 20000
+  rf_n_estimators: 150
+  rf_max_depth: null
+
+# Tactical zones
+zones:
+  n_zones: 4
+  dirichlet_alpha: 0.5          # lower => more severe non-IID label skew
+  zeroday_per_zone_per_family: 20   # injected withheld samples / zone / family
+
+# Network / resource simulation (Stage 2)
+simulation:
+  channel:
+    preset: moderate            # ideal | mild | moderate | severe (Gilbert-Elliott)
+    # optional explicit overrides: p_gb, p_bg, loss_good, loss_bad,
+    # latency_good, latency_bad, latency_jitter
+  resources:
+    preset: nominal             # abundant | nominal | constrained
+    # optional overrides of any ResourceParams field
+  min_battery: 20.0             # resource-aware selection threshold (Stage 4)
+  max_cpu: 0.85
+  characterize_rounds: 200      # length of the free-running characterization trace
+
+# Federated learning core (Stages 3-4). Defaults are ZAID-faithful for real runs;
+# smoke/synthetic runs override epochs down (see configs/stage3_smoke.yaml).
+fl:
+  rounds: 5
+  local_epochs: 2
+  lr: 0.0005
+  batch_size: 128
+  dropout: 0.2
+  # synchronous straggler wall-clock accounting
+  local_compute_s: 1.0          # modeled local-training+comm compute time per round
+  ideal_latency_s: 0.2          # nominal delivery latency under ideal link
+  max_delivery_attempts: 50     # retries before a zone is declared failed this round
+  delivery_timeout_s: 5.0       # time charged for a failed delivery attempt
+  # naive asynchronous baseline
+  async_steps: 40               # async ticks (server updates as zones arrive)
+  async_mix: 0.3                # naive equal mixing weight (no staleness scaling)
+
+zaid:                            # ZAID reimplementation (baseline 4)
+  universal_epochs: 30
+  universal_lr: 0.001
+  adapter_rounds: 5
+  adapter_local_epochs: 2
+  adapter_lr: 0.0005
+  ae_epochs: 10
+  ae_lr: 0.001
+
+# Channel preset used for the DDIL sync + async baselines (baseline 1 forces ideal).
+baselines:
+  ddil_preset: severe
+
+# Proposed FedZD framework (Stage 4). Each mechanism is a toggle for ablation.
+proposed:
+  async_steps: 40
+  base_alpha: 0.5               # base server mixing rate (scaled by staleness weight);
+                                # robust rules (median/trimmed-mean) converge slower,
+                                # so too-small a value undertrains them within few rounds
+  buffer_size: 4                # updates buffered before a robust flush; must be >=
+                                # ~n_zones so trimmed-mean/median have enough points
+                                # to filter poisoned updates (robust rules need this)
+  staleness:
+    kind: exponential           # constant (naive) | exponential | polynomial
+    lam: 0.3                    # exponential decay rate
+    a: 0.5                      # polynomial exponent
+  resource_aware: false         # exclude zones below battery/CPU thresholds
+  aggregation: mean             # mean | trimmed_mean | median (Byzantine-robust)
+  trim_ratio: 0.25              # fraction trimmed each end for trimmed_mean
+
+# Byzantine attack model (Stage 4c)
+byzantine:
+  fraction: 0.0                 # fraction of zones compromised (main runs)
+  eval_fraction: 0.25           # fraction used in the Stage 4 / 6 defense comparison
+  eval_attack: gaussian         # attack used in the Stage 6 Byzantine block
+  attack: none                  # none | label_flip | gaussian
+  sigma: 1.0                    # noise scale for the gaussian model-poisoning attack
+
+# Multi-seed experimental rigor (Stage 6)
+rigor:
+  seeds: [0, 1, 2, 3, 4]        # >= 5 seeds; report mean +/- std
+  ddil_preset: moderate         # channel severity for the ablation ladder
+
+# Bandwidth-aware compression (Stage 4d)
+compression:
+  method: none                  # none | topk | quantize
+  k_frac: 0.1                   # top-k fraction (sparsification)
+  bits: 8                       # quantization bit-width
+
+# Zero-day evaluation + cross-domain transfer (Stage 5)
+cross_domain:
+  enabled: true
+  unsw_data:                    # UNSW-NB15 as the transfer target
+    schema: unsw_nb15
+    source: synthetic           # synthetic | csv
+    synthetic:
+      n_samples: 20000
+    # csv_globs: ["/data/UNSW/UNSW_NB15_training-set.csv",
+    #             "/data/UNSW/UNSW_NB15_testing-set.csv"]

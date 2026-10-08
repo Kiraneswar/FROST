@@ -1,0 +1,14 @@
+# Fast Stage 6 validation overlay (CPU + synthetic, 5 seeds). Not paper numbers.
+data:
+  synthetic:
+    n_samples: 8000
+feature_selection:
+  max_rows_for_selection: 4000
+  rf_n_estimators: 80
+fl:
+  rounds: 3
+  local_epochs: 1
+  batch_size: 256
+proposed:
+  async_steps: 12
+  buffer_size: 4

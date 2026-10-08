@@ -1,0 +1,21 @@
+# Real ToN_IoT Network data (Train_Test_Network.csv, 461,043 rows, all 10 families).
+data:
+  source: csv
+  schema: toniot_network
+  csv_globs: ["realdata/toniot/Train_Test_Network.csv"]
+  max_rows: 50000           # stratified subsample so training fits this 2-CPU box;
+                            # drop this line on a GPU box for the full 461K rows
+feature_selection:
+  rfe_n_features: 32        # let RFE keep up to 32 before the MI cut
+  final_n_features: 32      # match ZAID's retained-feature count
+  max_rows_for_selection: 30000
+# CPU-feasible training sizes (raise on GPU for full paper-scale numbers)
+zaid:
+  universal_epochs: 8
+  adapter_rounds: 4
+  ae_epochs: 5
+fl:
+  local_epochs: 1
+proposed:
+  async_steps: 24
+  buffer_size: 4

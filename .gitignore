@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+runs/
+*.pkl
+/data/
+/dataset/
+*.zip
+*.tar.gz
+*.gz
+*.csv

@@ -1,0 +1,10 @@
+# Fast Stage 4 validation overlay (CPU + synthetic). Not paper numbers.
+data:
+  synthetic:
+    n_samples: 12000
+fl:
+  local_epochs: 1
+  batch_size: 256
+proposed:
+  async_steps: 20
+  buffer_size: 4
